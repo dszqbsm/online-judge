@@ -1,5 +1,5 @@
 package main
 
-import "gitlab.homerunsmartapi.com/go-zero-libs/templatex/cmd"
+import "github.com/dszqbsm/online-judge/cmd"
 
 func main() { cmd.Execute() }

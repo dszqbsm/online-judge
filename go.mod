@@ -1,12 +1,10 @@
-module gitlab.homerunsmartapi.com/go-zero-libs/templatex
+module github.com/dszqbsm/online-judge
 
 go 1.24.6
 
 require (
 	github.com/spf13/cobra v1.9.1
 	github.com/zeromicro/go-zero v1.9.0
-	gitlab.homerunsmartapi.com/go-zero-libs/errorx v1.0.0
-	gitlab.homerunsmartapi.com/go-zero-libs/logx v1.0.0
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.36.5
 )

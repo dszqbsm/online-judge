@@ -1,4 +1,4 @@
-SERVICE_NAME=demo
+SERVICE_NAME=onlinejudge
 API_SERVICE_PATH=./api
 RPC_SERVICE_PATH=./rpc
 
@@ -33,7 +33,7 @@ build_rpc_tool:
 	@rm -rf protoc-gen-validate
 
 build_model:
-	goctl model mysql ddl -src ./model/sql/license.sql -dir ./model --style go_zero
+	goctl model mysql ddl -src ./model/sql/onlinejudge.sql -dir ./model --style go_zero
 
 test:
 	go test -v ./...

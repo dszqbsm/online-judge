@@ -8,18 +8,39 @@ info (
 	email:   "570209909@qq.com"
 )
 
-type GeneralRequest {}
-
 type GeneralResponse {
 	StatusCode int `json:"-"`
 }
 
+type (
+	CreateUserRequest {
+		UserName string `json:"user_name"`
+		Password string `json:"password"`
+	}
+	CreateUserTokenRequest {
+		UserName string `json:"user_name"`
+		Password string `json:"password"`
+	}
+	TokenDetail {
+		Token string `json:"token"`
+	}
+	CreateUserTokenResponse {
+		StatusCode int         `json:"-"`
+		Data       TokenDetail `json:"data"`
+	}
+)
+
 @server (
-	group:      v1/web
+	group:      v1/user
 	middleware: LogInterceptor
 )
 service onlinejudge {
-	@handler Demo
-	get /v1 (GeneralRequest) returns (GeneralResponse)
+	@doc "用户注册"
+	@handler CreateUser
+	post /v1/users (CreateUserRequest) returns (GeneralResponse)
+
+	@doc "用户登录"
+	@handler CreateUserToken
+	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
 }
 
