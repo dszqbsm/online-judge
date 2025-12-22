@@ -1,0 +1,25 @@
+syntax = "v1"
+
+info (
+	title:   "online-judge"
+	desc:    "在线判题系统"
+	version: "v1.0.0"
+	author:  "shijiahao"
+	email:   "570209909@qq.com"
+)
+
+type GeneralRequest {}
+
+type GeneralResponse {
+	StatusCode int `json:"-"`
+}
+
+@server (
+	group:      v1/web
+	middleware: LogInterceptor
+)
+service onlinejudge {
+	@handler Demo
+	get /v1 (GeneralRequest) returns (GeneralResponse)
+}
+

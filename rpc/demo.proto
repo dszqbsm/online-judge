@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package demo;
+option go_package = "./demo/pb";
+
+message GeneralRequest {
+}
+
+message GeneralResponse {
+  string code = 1;
+  string msg = 2;
+}
+
+service Demo {
+  rpc Demo(GeneralRequest) returns (GeneralResponse);
+}
