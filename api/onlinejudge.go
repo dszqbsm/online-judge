@@ -3,9 +3,9 @@ package api
 import (
 	"fmt"
 
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/config"
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/handler"
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/svc"
+	"github.com/dszqbsm/online-judge/api/internal/config"
+	"github.com/dszqbsm/online-judge/api/internal/handler"
+	"github.com/dszqbsm/online-judge/api/internal/svc"
 
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/core/conf"

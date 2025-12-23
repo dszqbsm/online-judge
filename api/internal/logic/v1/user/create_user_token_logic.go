@@ -3,8 +3,8 @@ package user
 import (
 	"context"
 
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/svc"
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/types"
+	"github.com/dszqbsm/online-judge/api/internal/svc"
+	"github.com/dszqbsm/online-judge/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

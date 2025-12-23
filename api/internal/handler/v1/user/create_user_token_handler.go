@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	"github.com/dszqbsm/online-judge/common/errorc"
+	"github.com/dszqbsm/errorx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/dszqbsm/online-judge/api/internal/logic/v1/user"
@@ -35,7 +35,7 @@ func CreateUserTokenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			}
 			httpx.WriteJson(w, errResp.StatusCode, errResp)
 		default:
-			stat := errorx.New(http.StatusInternalServerError, errorx.ErrorCodeInternalSystemError, err.Error())
+			stat := errorx.New(http.StatusInternalServerError, errorx.ErrorCodeInvalidParameter, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 		}
 	}

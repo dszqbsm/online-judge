@@ -6,8 +6,8 @@ package handler
 import (
 	"net/http"
 
-	v1user "gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/handler/v1/user"
-	"gitlab.homerunsmartapi.com/go-zero-libs/templatex/api/internal/svc"
+	v1user "github.com/dszqbsm/online-judge/api/internal/handler/v1/user"
+	"github.com/dszqbsm/online-judge/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	"github.com/dszqbsm/online-judge/common/errorc"
+	"github.com/dszqbsm/errorx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/dszqbsm/online-judge/api/internal/logic/v1/user"
@@ -15,7 +15,7 @@ func CreateUserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CreateUserRequest
 		if err := httpx.Parse(r, &req); err != nil {
-			stat := errorc.New(http.StatusBadRequest, errorc.ErrorCodeInvalidParameter, err.Error())
+			stat := errorx.New(http.StatusBadRequest, errorx.ErrorCodeInvalidParameter, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 			return
 		}
@@ -29,13 +29,13 @@ func CreateUserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 				resp.StatusCode = http.StatusOK
 			}
 			httpx.WriteJson(w, resp.StatusCode, resp)
-		case *errorc.ErrorResponse:
+		case *errorx.ErrorResponse:
 			if errResp.StatusCode == 0 {
 				errResp.StatusCode = http.StatusBadRequest
 			}
 			httpx.WriteJson(w, errResp.StatusCode, errResp)
 		default:
-			stat := errorc.New(http.StatusInternalServerError, errorc.ErrorCodeInternalSystemError, err.Error())
+			stat := errorx.New(http.StatusInternalServerError, errorx.ErrorCodeInvalidParameter, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 		}
 	}
