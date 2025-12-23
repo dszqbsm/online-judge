@@ -4,6 +4,7 @@ import (
 	"github.com/dszqbsm/online-judge/api/internal/config"
 	"github.com/dszqbsm/online-judge/api/internal/middleware"
 	"github.com/dszqbsm/online-judge/model"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -13,6 +14,7 @@ type ServiceContext struct {
 	LogInterceptor rest.Middleware
 
 	UserModel model.UserModel
+	Redis     *redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -22,5 +24,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LogInterceptor: middleware.NewLogInterceptorMiddleware().Handle,
 
 		UserModel: model.NewUserModel(conn),
+		Redis:     redis.MustNewRedis(c.Redis),
 	}
 }

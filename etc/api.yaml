@@ -4,3 +4,16 @@ Port: 8090
 
 MySQL:
   DataSource: root:123456@tcp(localhost:3306)/onlinejudge?charset=utf8mb4&parseTime=true&loc=Local
+
+Redis:
+  Host: 127.0.0.1:6379
+  Pass: 123456
+  DB: 0
+  PoolSize: 10
+  MinIdleConns: 2
+  MaxIdleConns: 5
+  IdleTimeout: 300s
+
+JwtAuth:
+  AccessSecret: "online-judge-access-secret"
+  AccessExpire: 3600

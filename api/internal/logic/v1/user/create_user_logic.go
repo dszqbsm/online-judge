@@ -2,11 +2,13 @@ package user
 
 import (
 	"context"
+	"database/sql"
 	"net/http"
 
 	"github.com/dszqbsm/errorx"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
+	"github.com/dszqbsm/online-judge/model"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -29,12 +31,11 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateUserLogic) CreateUser(req *types.CreateUserRequest) (resp *types.GeneralResponse, err error) {
 	resp = &types.GeneralResponse{}
 
-	user, err := l.svcCtx.UserModel.FindOneByUserName(l.ctx, req.UserName)
-	if err != nil {
-		return nil, err
+	if _, err := l.svcCtx.UserModel.FindOneByUserName(l.ctx, req.UserName); err == nil {
+		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "user name already exists!")
 	}
-	if user.Id != 0 {
-		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "not in family")
+	if err != nil && err != model.ErrNotFound {
+		return nil, err
 	}
 
 	hashBytes, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
@@ -42,8 +43,17 @@ func (l *CreateUserLogic) CreateUser(req *types.CreateUserRequest) (resp *types.
 		return nil, err
 	}
 
-	userId, err := l.svcCtx.UserModel.
+	user := model.User{
+		UserName:     req.UserName,
+		PasswordHash: string(hashBytes),
+		Status:       true,
+		DeleteTime:   sql.NullTime{},
+	}
 
+	_, err = l.svcCtx.UserModel.Insert(l.ctx, &user)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return resp, nil
 }

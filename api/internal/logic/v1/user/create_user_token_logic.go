@@ -2,7 +2,9 @@ package user
 
 import (
 	"context"
+	"net/http"
 
+	"github.com/dszqbsm/errorx"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
 
@@ -24,8 +26,9 @@ func NewCreateUserTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *C
 }
 
 func (l *CreateUserTokenLogic) CreateUserToken(req *types.CreateUserTokenRequest) (resp *types.CreateUserTokenResponse, err error) {
-	// TODO: add your logic here and delete this line
-	// TODO: new response first, set status code to 200
+	if _, err := l.svcCtx.UserModel.FindOneByUserName(l.ctx, req.UserName); err == ErrNotFound {
+		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "user not found!")
+	}
 
 	return
 }
