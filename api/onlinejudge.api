@@ -45,29 +45,30 @@ service onlinejudge {
 }
 
 @server (
+	jwt:        Auth
 	group:      v1/problems
 	middleware: LogInterceptor
 )
 service onlinejudge {
 	@doc "获取题目列表"
-	@handler CreateUser
-	post /v1/users (CreateUserRequest) returns (GeneralResponse)
+	@handler RetrieveProblems
+	get /v1/problems (RetrieveProblemsRequest) returns (RetrieveProblemsResponse)
 
 	@doc "获取题目详情"
-	@handler CreateUserToken
-	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+	@handler RetrieveProblemDetail
+	get /v1/problems/:problem_key (RetrieveProblemDetailRequest) returns (RetrieveProblemDetailResponse)
 
 	@doc "创建题目详情"
-	@handler CreateUserToken
-	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+	@handler CreateProblemDetail
+	post /v1/problems (CreateProblemDetailRequest) returns (CreateProblemDetailResponse)
 
 	@doc "更新题目详情"
-	@handler CreateUserToken
-	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+	@handler UpdateProblemDetail
+	put /v1/problems/:problem_key (UpdateProblemDetailRequest) returns (UpdateProblemDetailResponse)
 
 	@doc "删除题目详情"
-	@handler CreateUserToken
-	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+	@handler DeleteProblemDetail
+	delete /v1/problems/:problem_key (DeleteProblemDetailRequest) returns (DeleteProblemDetailResponse)
 }
 
 // 提交模块 API 定义
