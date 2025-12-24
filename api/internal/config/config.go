@@ -8,9 +8,9 @@ import (
 
 type Config struct {
 	rest.RestConf
-	MySQL   sqlx.SqlConf
-	Redis   redis.RedisConf
-	JwtAuth JwtAuthConf
+	MySQL sqlx.SqlConf
+	Redis redis.RedisConf
+	Auth  JwtAuthConf
 }
 
 type JwtAuthConf struct {

@@ -7,13 +7,13 @@ MySQL:
 
 Redis:
   Host: 127.0.0.1:6379
-  Pass: 123456
+  Pass: "123456"
   DB: 0
   PoolSize: 10
   MinIdleConns: 2
   MaxIdleConns: 5
   IdleTimeout: 300s
 
-JwtAuth:
+Auth:
   AccessSecret: "online-judge-access-secret"
   AccessExpire: 3600

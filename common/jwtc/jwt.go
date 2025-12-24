@@ -1,25 +1,29 @@
 package jwtc
 
 import (
-	"github.com/zeromicro/go-zero/core/jwt"
+	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type JwtPayload struct {
 	UserId int64 `json:"user_id"`
+	jwt.RegisteredClaims
 }
 
-func GenerateToken(svcCtx *svc.ServiceContext, userId int64) (string, error) {
-	claims := jwt.MapClaims{
-		"userId": userId,
-		"exp":    jwt.GetExpireAt(svcCtx.Config.JwtAuth.AccessExpire),
-	}
-	token, err := jwt.NewToken(svcCtx.Config.JwtAuth.AccessSecret, claims)
-	if err != nil {
-		return "", err
-	}
-	return token, nil
+type JwtConfig struct {
+	AccessSecret string
+	AccessExpire int64
 }
 
-func ValidateToken(svcCtx *svc.ServiceContext, token string) (int64, error) {
-	claims, err := jwt.ParseToken(svcCtx.Config.JwtAuth.AccessSecret, token)
+func GenerateToken(cfg JwtConfig, userId int64) (string, error) {
+	claims := JwtPayload{
+		UserId: userId,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Second * time.Duration(cfg.AccessExpire))),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(cfg.AccessSecret))
 }

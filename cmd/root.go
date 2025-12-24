@@ -3,6 +3,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/dszqbsm/online-judge/api"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +27,7 @@ func Execute() {
 }
 
 func init() {
-	// rootCmd.AddCommand(api.NewCommand(&cfgFile))
+	rootCmd.AddCommand(api.NewCommand(&cfgFile))
 	// rootCmd.AddCommand(rpc.NewCommand(&cfgFile))
 
 	// Here you will define your flags and configuration settings.
