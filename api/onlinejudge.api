@@ -25,7 +25,7 @@ type (
 		Token string `json:"token"`
 	}
 	CreateUserTokenResponse {
-		StatusCode int         `json:"-"`
+		GeneralResponse
 		Data       TokenDetail `json:"data"`
 	}
 )
@@ -44,6 +44,70 @@ service onlinejudge {
 	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
 }
 
+type (
+	RetrieveProblemsRequest {
+		Title      string `form:"title",optional`
+		Difficulty string `form:"difficulty",optional`
+		Tags       string `form:"tags",optional`
+	}
+	ProblemListDetail {
+		ProblemKey string `json:"problem_key"`
+		Title      string `json:"title"`
+		Difficulty string `json:"difficulty"`
+		Tags       string `json:"tags"`
+	}
+	RetrieveProblemsResponse {
+		GeneralResponse
+		Data []ProblemListDetail `json:"data"`
+	}
+	RetrieveProblemDetailRequest {
+		ProblemKey string `path:"problem_key"`
+	}
+	ProblemDetail {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Inputdesc   string `json:"input_desc"`
+		Outputdesc  string `json:"output_desc"`
+		SampleCases string `json:"sample_ceses"`
+		Difficulty  string `json:"difficulty"`
+		TimeLimit   int    `json:"time_limit"`
+		MemoryLimit int    `json:"memory_limit"`
+		Tags        string `json:"tags"`
+	}
+	RetrieveProblemDetailResponse {
+		GeneralResponse
+		Data ProblemDetail `json:"data"`
+	}
+	CreateProblemDetailRequest {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Inputdesc   string `json:"input_desc"`
+		Outputdesc  string `json:"output_desc"`
+		SampleCases string `json:"sample_ceses"`
+		Difficulty  string `json:"difficulty"`
+		TimeLimit   int    `json:"time_limit"`
+		MemoryLimit int    `json:"memory_limit"`
+		Tags        string `json:"tags"`
+		IsPublished bool   `json:"is_published"`
+	}
+	UpdateProblemDetailRequest {
+		ProblemKey  string `path:"problem_key"`
+		Title       string `json:"title",optional`
+		Description string `json:"description",optional`
+		Inputdesc   string `json:"input_desc",optional`
+		Outputdesc  string `json:"output_desc",optional`
+		SampleCases string `json:"sample_ceses",optional`
+		Difficulty  string `json:"difficulty",optional`
+		TimeLimit   int    `json:"time_limit",optional`
+		MemoryLimit int    `json:"memory_limit",optional`
+		Tags        string `json:"tags",optional`
+		IsPublished bool   `json:"is_published",optional`
+	}
+	DeleteProblemDetailRequest {
+		ProblemKey string `path:"problem_key"`
+	}
+)
+
 @server (
 	jwt:        Auth
 	group:      v1/problems
@@ -60,15 +124,15 @@ service onlinejudge {
 
 	@doc "创建题目详情"
 	@handler CreateProblemDetail
-	post /v1/problems (CreateProblemDetailRequest) returns (CreateProblemDetailResponse)
+	post /v1/problems (CreateProblemDetailRequest) returns (GeneralResponse)
 
 	@doc "更新题目详情"
 	@handler UpdateProblemDetail
-	put /v1/problems/:problem_key (UpdateProblemDetailRequest) returns (UpdateProblemDetailResponse)
+	put /v1/problems/:problem_key (UpdateProblemDetailRequest) returns (GeneralResponse)
 
 	@doc "删除题目详情"
 	@handler DeleteProblemDetail
-	delete /v1/problems/:problem_key (DeleteProblemDetailRequest) returns (DeleteProblemDetailResponse)
+	delete /v1/problems/:problem_key (DeleteProblemDetailRequest) returns (GeneralResponse)
 }
 
 // 提交模块 API 定义

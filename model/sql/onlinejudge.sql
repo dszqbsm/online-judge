@@ -17,7 +17,7 @@ CREATE TABLE `user`
 CREATE TABLE `problem`
 (
     `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `key`           VARCHAR(8)  NOT NULL COMMENT '题目标识',
+    `key`           VARCHAR(32)  NOT NULL COMMENT '题目标识',
     `title`         VARCHAR(50)  NOT NULL COMMENT '题目标题',
     `description`   TEXT NOT NULL COMMENT '题目描述',
     `input_desc`    TEXT NOT NULL COMMENT '输入格式说明',
@@ -26,7 +26,7 @@ CREATE TABLE `problem`
     `difficulty`    VARCHAR(8) NOT NULL COMMENT '题目难度: easy/medium/hard',
     `time_limit`    INT NOT NULL COMMENT '程序运行时间限制(单位: 毫秒)',
     `memory_limit`  INT NOT NULL COMMENT '程序内存限制(单位: MB)',
-    `tags`          JSON NOT NULL COMMENT '题目标签',
+    `tags`          VARCHAR(8) NOT NULL COMMENT '题目标签',
     `is_published`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否发布',
     `create_time`   TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`   TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

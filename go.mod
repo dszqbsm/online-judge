@@ -7,7 +7,7 @@ require (
 	github.com/dszqbsm/logx v1.0.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/spf13/cobra v1.9.1
-	github.com/zeromicro/go-zero v1.9.3
+	github.com/zeromicro/go-zero v1.9.4
 	golang.org/x/crypto v0.33.0
 )
 
@@ -36,7 +36,7 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.62.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
-	github.com/redis/go-redis/v9 v9.16.0 // indirect
+	github.com/redis/go-redis/v9 v9.17.2 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	go.opentelemetry.io/otel v1.24.0 // indirect
