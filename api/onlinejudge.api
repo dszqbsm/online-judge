@@ -31,7 +31,7 @@ type (
 )
 
 @server (
-	group:      v1/user
+	group:      v1/users
 	middleware: LogInterceptor
 )
 service onlinejudge {
@@ -44,3 +44,70 @@ service onlinejudge {
 	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
 }
 
+@server (
+	group:      v1/problems
+	middleware: LogInterceptor
+)
+service onlinejudge {
+	@doc "获取题目列表"
+	@handler CreateUser
+	post /v1/users (CreateUserRequest) returns (GeneralResponse)
+
+	@doc "获取题目详情"
+	@handler CreateUserToken
+	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+
+	@doc "创建题目详情"
+	@handler CreateUserToken
+	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+
+	@doc "更新题目详情"
+	@handler CreateUserToken
+	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+
+	@doc "删除题目详情"
+	@handler CreateUserToken
+	post /v1/users/auth/token (CreateUserTokenRequest) returns (CreateUserTokenResponse)
+}
+
+// 提交模块 API 定义
+//@server (
+//	group:      v1/submissions
+//	middleware: LogInterceptor
+//)
+//service onlinejudge {
+//	@doc "提交代码判题"
+//	@handler SubmitCodeHandler
+//	post /v1/submissions (SubmitCodeRequest) returns (SubmitCodeResponse)
+//
+//	@doc "获取提交记录列表"
+//	@handler GetSubmissionListHandler
+//	get /v1/submissions (GetSubmissionListRequest) returns (GetSubmissionListResponse)
+//
+//	@doc "获取提交记录详情"
+//	@handler GetSubmissionDetailHandler
+//	get /v1/submissions/{id} (GetSubmissionDetailRequest) returns (GetSubmissionDetailResponse)
+//}
+//
+// 测试用例模块 API 定义
+//@server (
+//	group:      v1/cases
+//	middleware: LogInterceptor
+//)
+//service onlinejudge {
+//	@doc "获取测试用例列表"
+//	@handler GetTestCaseListHandler
+//	get /v1/problems/{problemId}/test-cases (GetTestCaseListRequest) returns (GetTestCaseListResponse)
+//
+//	@doc "创建测试用例"
+//	@handler CreateTestCaseHandler
+//	post /v1/problems/{problemId}/test-cases (CreateTestCaseRequest) returns (GeneralResponse)
+//
+//	@doc "更新测试用例"
+//	@handler UpdateTestCaseHandler
+//	put /v1/test-cases/{caseId} (UpdateTestCaseRequest) returns (GeneralResponse)
+//
+//	@doc "删除测试用例"
+//	@handler DeleteTestCaseHandler
+//	delete /v1/test-cases/{caseId} (DeleteTestCaseRequest) returns (GeneralResponse)
+//}
