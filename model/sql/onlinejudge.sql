@@ -50,7 +50,7 @@ CREATE TABLE `case`
     `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `delete_time` TIMESTAMP NULL COMMENT '删除时间',
     CONSTRAINT `pk_id` PRIMARY KEY (`id`),
-    CONSTRAINT `uc_key_problem_key` UNIQUE (`key`, `problem_key`)
+    CONSTRAINT `uc_key` UNIQUE (`key`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_bin

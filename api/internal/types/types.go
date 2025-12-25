@@ -3,7 +3,26 @@
 
 package types
 
+type CaseDetail struct {
+	Input  string `json:"input"`
+	Output string `json:"output"`
+	Score  int    `json:"score"`
+}
+
+type CaseDetailList struct {
+	CaseKey string `json:"case_key"`
+}
+
+type CreateCaseDetailRequest struct {
+	CaseKey    string `json:"case_key"`
+	ProblemKey string `json:"problem_key"`
+	Input      string `json:"input"`
+	Output     string `json:"output"`
+	Score      int    `json:score`
+}
+
 type CreateProblemDetailRequest struct {
+	ProblemKey  string `json:"problem_key"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Inputdesc   string `json:"input_desc"`
@@ -29,6 +48,10 @@ type CreateUserTokenRequest struct {
 type CreateUserTokenResponse struct {
 	GeneralResponse
 	Data TokenDetail `json:"data"`
+}
+
+type DeleteCaseDetailRequest struct {
+	CaseKey string `path:"case_key"`
 }
 
 type DeleteProblemDetailRequest struct {
@@ -58,6 +81,15 @@ type ProblemListDetail struct {
 	Tags       string `json:"tags"`
 }
 
+type RetrieveCasesRequest struct {
+	ProblemKey string `form:"problem_key",optional`
+}
+
+type RetrieveCasesResponse struct {
+	GeneralResponse
+	Data []CaseDetailList `json:"data"`
+}
+
 type RetrieveProblemDetailRequest struct {
 	ProblemKey string `path:"problem_key"`
 }
@@ -78,8 +110,25 @@ type RetrieveProblemsResponse struct {
 	Data []ProblemListDetail `json:"data"`
 }
 
+type RetrievecaseDetailRequest struct {
+	CaseKey string `path:"case_key"`
+}
+
+type RetrievecaseDetailResponse struct {
+	GeneralResponse
+	Data []CaseDetail `json:"data"`
+}
+
 type TokenDetail struct {
 	Token string `json:"token"`
+}
+
+type UpdateCaseDetailRequest struct {
+	CaseKey    string `path:"case_key"`
+	ProblemKey string `json:"problem_key",optional`
+	Input      string `json:"input",optional`
+	Output     string `json:"output",optional`
+	Score      int    `json:score,optional`
 }
 
 type UpdateProblemDetailRequest struct {

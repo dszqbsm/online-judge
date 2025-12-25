@@ -79,6 +79,7 @@ type (
 		Data ProblemDetail `json:"data"`
 	}
 	CreateProblemDetailRequest {
+		ProblemKey  string `json:"problem_key"`
 		Title       string `json:"title"`
 		Description string `json:"description"`
 		Inputdesc   string `json:"input_desc"`
@@ -153,26 +154,72 @@ service onlinejudge {
 // @handler GetSubmissionDetailHandler
 // get /v1/submissions/{id} (GetSubmissionDetailRequest) returns (GetSubmissionDetailResponse)
 //}
-//
-// 测试用例模块 API 定义
-//@server (
-// group:      v1/cases
-// middleware: LogInterceptor
-//)
-//service onlinejudge {
-// @doc "获取测试用例列表"
-// @handler GetTestCaseListHandler
-// get /v1/problems/{problemId}/test-cases (GetTestCaseListRequest) returns (GetTestCaseListResponse)
-//
-// @doc "创建测试用例"
-// @handler CreateTestCaseHandler
-// post /v1/problems/{problemId}/test-cases (CreateTestCaseRequest) returns (GeneralResponse)
-//
-// @doc "更新测试用例"
-// @handler UpdateTestCaseHandler
-// put /v1/test-cases/{caseId} (UpdateTestCaseRequest) returns (GeneralResponse)
-//
-// @doc "删除测试用例"
-// @handler DeleteTestCaseHandler
-// delete /v1/test-cases/{caseId} (DeleteTestCaseRequest) returns (GeneralResponse)
-//}
+type (
+	RetrieveCasesRequest {
+		ProblemKey string `form:"problem_key",optional`
+	}
+	CaseDetailList {
+		CaseKey string `json:"case_key"`
+	}
+	RetrieveCasesResponse {
+		GeneralResponse
+		Data []CaseDetailList `json:"data"`
+	}
+	RetrievecaseDetailRequest {
+		CaseKey string `path:"case_key"`
+	}
+	CaseDetail {
+		Input  string `json:"input"`
+		Output string `json:"output"`
+		Score  int    `json:"score"`
+	}
+	RetrievecaseDetailResponse {
+		GeneralResponse
+		Data []CaseDetail `json:"data"`
+	}
+	CreateCaseDetailRequest {
+		CaseKey    string `json:"case_key"`
+		ProblemKey string `json:"problem_key"`
+		Input      string `json:"input"`
+		Output     string `json:"output"`
+		Score      int    `json:score`
+	}
+	UpdateCaseDetailRequest {
+		CaseKey    string `path:"case_key"`
+		ProblemKey string `json:"problem_key",optional`
+		Input      string `json:"input",optional`
+		Output     string `json:"output",optional`
+		Score      int    `json:score,optional`
+	}
+	DeleteCaseDetailRequest {
+		CaseKey string `path:"case_key"`
+	}
+)
+
+@server (
+	jwt:        Auth
+	group:      v1/cases
+	middleware: LogInterceptor
+)
+service onlinejudge {
+	@doc "获取测试用例列表"
+	@handler RetrieveCases
+	get /v1/cases (RetrieveCasesRequest) returns (RetrieveCasesResponse)
+
+	@doc "获取测试用例详情"
+	@handler RetrievecaseDetail
+	get /v1/cases/:case_key (RetrievecaseDetailRequest) returns (RetrievecaseDetailResponse)
+
+	@doc "创建测试用例详情"
+	@handler CreateCaseDetail
+	post /v1/cases (CreateCaseDetailRequest) returns (GeneralResponse)
+
+	@doc "更新测试用例详情"
+	@handler UpdateCaseDetail
+	put /v1/cases/:case_key (UpdateCaseDetailRequest) returns (GeneralResponse)
+
+	@doc "删除测试用例详情"
+	@handler DeleteCaseDetail
+	delete /v1/cases/:case_key (DeleteCaseDetailRequest) returns (GeneralResponse)
+}
+

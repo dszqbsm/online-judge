@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	v1cases "github.com/dszqbsm/online-judge/api/internal/handler/v1/cases"
 	v1problems "github.com/dszqbsm/online-judge/api/internal/handler/v1/problems"
 	v1users "github.com/dszqbsm/online-judge/api/internal/handler/v1/users"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
@@ -14,6 +15,45 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.LogInterceptor},
+			[]rest.Route{
+				{
+					// 获取测试用例列表
+					Method:  http.MethodGet,
+					Path:    "/v1/cases",
+					Handler: v1cases.RetrieveCasesHandler(serverCtx),
+				},
+				{
+					// 创建测试用例详情
+					Method:  http.MethodPost,
+					Path:    "/v1/cases",
+					Handler: v1cases.CreateCaseDetailHandler(serverCtx),
+				},
+				{
+					// 获取测试用例详情
+					Method:  http.MethodGet,
+					Path:    "/v1/cases/:case_key",
+					Handler: v1cases.RetrievecaseDetailHandler(serverCtx),
+				},
+				{
+					// 更新测试用例详情
+					Method:  http.MethodPut,
+					Path:    "/v1/cases/:case_key",
+					Handler: v1cases.UpdateCaseDetailHandler(serverCtx),
+				},
+				{
+					// 删除测试用例详情
+					Method:  http.MethodDelete,
+					Path:    "/v1/cases/:case_key",
+					Handler: v1cases.DeleteCaseDetailHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
 	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.LogInterceptor},

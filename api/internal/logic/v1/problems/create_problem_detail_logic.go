@@ -6,7 +6,6 @@ import (
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
 	"github.com/dszqbsm/online-judge/model"
-	"github.com/google/uuid"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +28,7 @@ func (l *CreateProblemDetailLogic) CreateProblemDetail(req *types.CreateProblemD
 	resp = &types.GeneralResponse{}
 
 	problem := &model.Problem{
-		Key:         uuid.New().String(),
+		Key:         req.ProblemKey,
 		Title:       req.Title,
 		Description: req.Description,
 		InputDesc:   req.Inputdesc,

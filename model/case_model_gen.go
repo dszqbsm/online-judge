@@ -27,7 +27,7 @@ type (
 	caseModel interface {
 		Insert(ctx context.Context, data *Case) (sql.Result, error)
 		FindOne(ctx context.Context, id uint64) (*Case, error)
-		FindOneByKeyProblemKey(ctx context.Context, key string, problemKey string) (*Case, error)
+		FindOneByKey(ctx context.Context, key string) (*Case, error)
 		Update(ctx context.Context, data *Case) error
 		Delete(ctx context.Context, id uint64) error
 	}
@@ -77,10 +77,10 @@ func (m *defaultCaseModel) FindOne(ctx context.Context, id uint64) (*Case, error
 	}
 }
 
-func (m *defaultCaseModel) FindOneByKeyProblemKey(ctx context.Context, key string, problemKey string) (*Case, error) {
+func (m *defaultCaseModel) FindOneByKey(ctx context.Context, key string) (*Case, error) {
 	var resp Case
-	query := fmt.Sprintf("select %s from %s where `key` = ? and `problem_key` = ? limit 1", caseRows, m.table)
-	err := m.conn.QueryRowCtx(ctx, &resp, query, key, problemKey)
+	query := fmt.Sprintf("select %s from %s where `key` = ? limit 1", caseRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, key)
 	switch err {
 	case nil:
 		return &resp, nil
