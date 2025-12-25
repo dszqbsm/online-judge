@@ -27,7 +27,7 @@ CREATE TABLE `problem`
     `time_limit`    INT NOT NULL COMMENT '程序运行时间限制(单位: 毫秒)',
     `memory_limit`  INT NOT NULL COMMENT '程序内存限制(单位: MB)',
     `tags`          VARCHAR(8) NOT NULL COMMENT '题目标签',
-    `is_published`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否发布',
+    `is_published`  BOOL NOT NULL DEFAULT FALSE COMMENT '是否发布',
     `create_time`   TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`   TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `delete_time`   TIMESTAMP NULL COMMENT '删除时间',

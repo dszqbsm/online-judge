@@ -1,4 +1,4 @@
-package user
+package problems
 
 import (
 	"net/http"
@@ -6,22 +6,22 @@ import (
 	"github.com/dszqbsm/errorx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"github.com/dszqbsm/online-judge/api/internal/logic/v1/user"
+	"github.com/dszqbsm/online-judge/api/internal/logic/v1/problems"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
 )
 
-func CreateUserTokenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func DeleteProblemDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.CreateUserTokenRequest
+		var req types.DeleteProblemDetailRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			stat := errorx.New(http.StatusBadRequest, errorx.ErrorCodeInvalidParameter, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 			return
 		}
 
-		l := user.NewCreateUserTokenLogic(r.Context(), svcCtx)
-		resp, err := l.CreateUserToken(&req)
+		l := problems.NewDeleteProblemDetailLogic(r.Context(), svcCtx)
+		resp, err := l.DeleteProblemDetail(&req)
 
 		switch errResp := err.(type) {
 		case nil:
@@ -35,7 +35,7 @@ func CreateUserTokenHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			}
 			httpx.WriteJson(w, errResp.StatusCode, errResp)
 		default:
-			stat := errorx.New(http.StatusInternalServerError, errorx.ErrorCodeInvalidParameter, err.Error())
+			stat := errorx.New(http.StatusInternalServerError, errorx.ErrorCodeInternalSystemError, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 		}
 	}

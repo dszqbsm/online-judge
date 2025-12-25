@@ -26,7 +26,7 @@ type (
 	}
 	CreateUserTokenResponse {
 		GeneralResponse
-		Data       TokenDetail `json:"data"`
+		Data TokenDetail `json:"data"`
 	}
 )
 
@@ -98,10 +98,10 @@ type (
 		Outputdesc  string `json:"output_desc",optional`
 		SampleCases string `json:"sample_ceses",optional`
 		Difficulty  string `json:"difficulty",optional`
-		TimeLimit   int    `json:"time_limit",optional`
-		MemoryLimit int    `json:"memory_limit",optional`
+		TimeLimit   *int   `json:"time_limit",optional`
+		MemoryLimit *int   `json:"memory_limit",optional`
 		Tags        string `json:"tags",optional`
-		IsPublished bool   `json:"is_published",optional`
+		IsPublished *bool  `json:"is_published",optional`
 	}
 	DeleteProblemDetailRequest {
 		ProblemKey string `path:"problem_key"`
@@ -137,42 +137,42 @@ service onlinejudge {
 
 // 提交模块 API 定义
 //@server (
-//	group:      v1/submissions
-//	middleware: LogInterceptor
+// group:      v1/submissions
+// middleware: LogInterceptor
 //)
 //service onlinejudge {
-//	@doc "提交代码判题"
-//	@handler SubmitCodeHandler
-//	post /v1/submissions (SubmitCodeRequest) returns (SubmitCodeResponse)
+// @doc "提交代码判题"
+// @handler SubmitCodeHandler
+// post /v1/submissions (SubmitCodeRequest) returns (SubmitCodeResponse)
 //
-//	@doc "获取提交记录列表"
-//	@handler GetSubmissionListHandler
-//	get /v1/submissions (GetSubmissionListRequest) returns (GetSubmissionListResponse)
+// @doc "获取提交记录列表"
+// @handler GetSubmissionListHandler
+// get /v1/submissions (GetSubmissionListRequest) returns (GetSubmissionListResponse)
 //
-//	@doc "获取提交记录详情"
-//	@handler GetSubmissionDetailHandler
-//	get /v1/submissions/{id} (GetSubmissionDetailRequest) returns (GetSubmissionDetailResponse)
+// @doc "获取提交记录详情"
+// @handler GetSubmissionDetailHandler
+// get /v1/submissions/{id} (GetSubmissionDetailRequest) returns (GetSubmissionDetailResponse)
 //}
 //
 // 测试用例模块 API 定义
 //@server (
-//	group:      v1/cases
-//	middleware: LogInterceptor
+// group:      v1/cases
+// middleware: LogInterceptor
 //)
 //service onlinejudge {
-//	@doc "获取测试用例列表"
-//	@handler GetTestCaseListHandler
-//	get /v1/problems/{problemId}/test-cases (GetTestCaseListRequest) returns (GetTestCaseListResponse)
+// @doc "获取测试用例列表"
+// @handler GetTestCaseListHandler
+// get /v1/problems/{problemId}/test-cases (GetTestCaseListRequest) returns (GetTestCaseListResponse)
 //
-//	@doc "创建测试用例"
-//	@handler CreateTestCaseHandler
-//	post /v1/problems/{problemId}/test-cases (CreateTestCaseRequest) returns (GeneralResponse)
+// @doc "创建测试用例"
+// @handler CreateTestCaseHandler
+// post /v1/problems/{problemId}/test-cases (CreateTestCaseRequest) returns (GeneralResponse)
 //
-//	@doc "更新测试用例"
-//	@handler UpdateTestCaseHandler
-//	put /v1/test-cases/{caseId} (UpdateTestCaseRequest) returns (GeneralResponse)
+// @doc "更新测试用例"
+// @handler UpdateTestCaseHandler
+// put /v1/test-cases/{caseId} (UpdateTestCaseRequest) returns (GeneralResponse)
 //
-//	@doc "删除测试用例"
-//	@handler DeleteTestCaseHandler
-//	delete /v1/test-cases/{caseId} (DeleteTestCaseRequest) returns (GeneralResponse)
+// @doc "删除测试用例"
+// @handler DeleteTestCaseHandler
+// delete /v1/test-cases/{caseId} (DeleteTestCaseRequest) returns (GeneralResponse)
 //}

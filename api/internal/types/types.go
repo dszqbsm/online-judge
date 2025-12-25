@@ -3,6 +3,19 @@
 
 package types
 
+type CreateProblemDetailRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Inputdesc   string `json:"input_desc"`
+	Outputdesc  string `json:"output_desc"`
+	SampleCases string `json:"sample_ceses"`
+	Difficulty  string `json:"difficulty"`
+	TimeLimit   int    `json:"time_limit"`
+	MemoryLimit int    `json:"memory_limit"`
+	Tags        string `json:"tags"`
+	IsPublished bool   `json:"is_published"`
+}
+
 type CreateUserRequest struct {
 	UserName string `json:"user_name"`
 	Password string `json:"password"`
@@ -14,14 +27,71 @@ type CreateUserTokenRequest struct {
 }
 
 type CreateUserTokenResponse struct {
-	StatusCode int         `json:"-"`
-	Data       TokenDetail `json:"data"`
+	GeneralResponse
+	Data TokenDetail `json:"data"`
+}
+
+type DeleteProblemDetailRequest struct {
+	ProblemKey string `path:"problem_key"`
 }
 
 type GeneralResponse struct {
 	StatusCode int `json:"-"`
 }
 
+type ProblemDetail struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Inputdesc   string `json:"input_desc"`
+	Outputdesc  string `json:"output_desc"`
+	SampleCases string `json:"sample_ceses"`
+	Difficulty  string `json:"difficulty"`
+	TimeLimit   int    `json:"time_limit"`
+	MemoryLimit int    `json:"memory_limit"`
+	Tags        string `json:"tags"`
+}
+
+type ProblemListDetail struct {
+	ProblemKey string `json:"problem_key"`
+	Title      string `json:"title"`
+	Difficulty string `json:"difficulty"`
+	Tags       string `json:"tags"`
+}
+
+type RetrieveProblemDetailRequest struct {
+	ProblemKey string `path:"problem_key"`
+}
+
+type RetrieveProblemDetailResponse struct {
+	GeneralResponse
+	Data ProblemDetail `json:"data"`
+}
+
+type RetrieveProblemsRequest struct {
+	Title      string `form:"title",optional`
+	Difficulty string `form:"difficulty",optional`
+	Tags       string `form:"tags",optional`
+}
+
+type RetrieveProblemsResponse struct {
+	GeneralResponse
+	Data []ProblemListDetail `json:"data"`
+}
+
 type TokenDetail struct {
 	Token string `json:"token"`
+}
+
+type UpdateProblemDetailRequest struct {
+	ProblemKey  string `path:"problem_key"`
+	Title       string `json:"title",optional`
+	Description string `json:"description",optional`
+	Inputdesc   string `json:"input_desc",optional`
+	Outputdesc  string `json:"output_desc",optional`
+	SampleCases string `json:"sample_ceses",optional`
+	Difficulty  string `json:"difficulty",optional`
+	TimeLimit   *int   `json:"time_limit",optional`
+	MemoryLimit *int   `json:"memory_limit",optional`
+	Tags        string `json:"tags",optional`
+	IsPublished *bool  `json:"is_published",optional`
 }

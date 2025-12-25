@@ -49,7 +49,7 @@ type (
 		TimeLimit   int64        `db:"time_limit"`   // 程序运行时间限制(单位: 毫秒)
 		MemoryLimit int64        `db:"memory_limit"` // 程序内存限制(单位: MB)
 		Tags        string       `db:"tags"`         // 题目标签
-		IsPublished int64        `db:"is_published"` // 是否发布
+		IsPublished bool         `db:"is_published"` // 是否发布
 		CreateTime  time.Time    `db:"create_time"`  // 创建时间
 		UpdateTime  time.Time    `db:"update_time"`  // 更新时间
 		DeleteTime  sql.NullTime `db:"delete_time"`  // 删除时间

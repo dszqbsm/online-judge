@@ -13,8 +13,12 @@ type ServiceContext struct {
 	Config         config.Config
 	LogInterceptor rest.Middleware
 
-	UserModel model.UserModel
-	Redis     *redis.Redis
+	UserModel     model.UserModel
+	PromblemModel model.ProblemModel
+	CaseModel     model.CaseModel
+	Submission    model.SubmissionModel
+
+	Redis *redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,7 +27,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:         c,
 		LogInterceptor: middleware.NewLogInterceptorMiddleware().Handle,
 
-		UserModel: model.NewUserModel(conn),
-		Redis:     redis.MustNewRedis(c.Redis),
+		UserModel:     model.NewUserModel(conn),
+		PromblemModel: model.NewProblemModel(conn),
+		CaseModel:     model.NewCaseModel(conn),
+		Submission:    model.NewSubmissionModel(conn),
+
+		Redis: redis.MustNewRedis(c.Redis),
 	}
 }

@@ -6,7 +6,8 @@ package handler
 import (
 	"net/http"
 
-	v1user "github.com/dszqbsm/online-judge/api/internal/handler/v1/user"
+	v1problems "github.com/dszqbsm/online-judge/api/internal/handler/v1/problems"
+	v1users "github.com/dszqbsm/online-judge/api/internal/handler/v1/users"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -18,16 +19,55 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.LogInterceptor},
 			[]rest.Route{
 				{
+					// 获取题目列表
+					Method:  http.MethodGet,
+					Path:    "/v1/problems",
+					Handler: v1problems.RetrieveProblemsHandler(serverCtx),
+				},
+				{
+					// 创建题目详情
+					Method:  http.MethodPost,
+					Path:    "/v1/problems",
+					Handler: v1problems.CreateProblemDetailHandler(serverCtx),
+				},
+				{
+					// 获取题目详情
+					Method:  http.MethodGet,
+					Path:    "/v1/problems/:problem_key",
+					Handler: v1problems.RetrieveProblemDetailHandler(serverCtx),
+				},
+				{
+					// 更新题目详情
+					Method:  http.MethodPut,
+					Path:    "/v1/problems/:problem_key",
+					Handler: v1problems.UpdateProblemDetailHandler(serverCtx),
+				},
+				{
+					// 删除题目详情
+					Method:  http.MethodDelete,
+					Path:    "/v1/problems/:problem_key",
+					Handler: v1problems.DeleteProblemDetailHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.LogInterceptor},
+			[]rest.Route{
+				{
 					// 用户注册
 					Method:  http.MethodPost,
 					Path:    "/v1/users",
-					Handler: v1user.CreateUserHandler(serverCtx),
+					Handler: v1users.CreateUserHandler(serverCtx),
 				},
 				{
 					// 用户登录
 					Method:  http.MethodPost,
 					Path:    "/v1/users/auth/token",
-					Handler: v1user.CreateUserTokenHandler(serverCtx),
+					Handler: v1users.CreateUserTokenHandler(serverCtx),
 				},
 			}...,
 		),
