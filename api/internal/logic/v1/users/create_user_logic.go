@@ -46,7 +46,7 @@ func (l *CreateUserLogic) CreateUser(req *types.CreateUserRequest) (resp *types.
 	user := model.User{
 		UserName:     req.UserName,
 		PasswordHash: string(hashBytes),
-		Status:       true,
+		Status:       1,
 		DeleteTime:   sql.NullTime{},
 	}
 

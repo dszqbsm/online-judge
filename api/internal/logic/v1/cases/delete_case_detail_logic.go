@@ -29,7 +29,7 @@ func NewDeleteCaseDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *DeleteCaseDetailLogic) DeleteCaseDetail(req *types.DeleteCaseDetailRequest) (resp *types.GeneralResponse, err error) {
 	resp = &types.GeneralResponse{}
 
-	caseDetail, err := l.svcCtx.CaseModel.FindOneByKey(l.ctx, req.CaseKey)
+	caseDetail, err := l.svcCtx.TestCaseModel.FindOneByKey(l.ctx, req.CaseKey)
 	if err == model.ErrNotFound {
 		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "problem not exists!")
 	}
@@ -37,7 +37,7 @@ func (l *DeleteCaseDetailLogic) DeleteCaseDetail(req *types.DeleteCaseDetailRequ
 		return nil, err
 	}
 
-	err = l.svcCtx.CaseModel.Delete(l.ctx, caseDetail.Id)
+	err = l.svcCtx.TestCaseModel.Delete(l.ctx, caseDetail.Id)
 	if err != nil {
 		return nil, err
 	}

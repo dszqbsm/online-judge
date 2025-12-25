@@ -26,7 +26,7 @@ func NewRetrieveCasesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ret
 func (l *RetrieveCasesLogic) RetrieveCases(req *types.RetrieveCasesRequest) (resp *types.RetrieveCasesResponse, err error) {
 	resp = &types.RetrieveCasesResponse{}
 
-	casesDetail, err := l.svcCtx.CaseModel.FindAllByProblemKey(l.ctx, req.ProblemKey)
+	casesDetail, err := l.svcCtx.TestCaseModel.FindAllByProblemKey(l.ctx, req.ProblemKey)
 	if err != nil {
 		return nil, err
 	}

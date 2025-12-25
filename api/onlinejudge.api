@@ -89,7 +89,7 @@ type (
 		TimeLimit   int    `json:"time_limit"`
 		MemoryLimit int    `json:"memory_limit"`
 		Tags        string `json:"tags"`
-		IsPublished bool   `json:"is_published"`
+		IsPublished int    `json:"is_published"`
 	}
 	UpdateProblemDetailRequest {
 		ProblemKey  string `path:"problem_key"`
@@ -102,7 +102,7 @@ type (
 		TimeLimit   *int   `json:"time_limit",optional`
 		MemoryLimit *int   `json:"memory_limit",optional`
 		Tags        string `json:"tags",optional`
-		IsPublished *bool  `json:"is_published",optional`
+		IsPublished *int   `json:"is_published",optional`
 	}
 	DeleteProblemDetailRequest {
 		ProblemKey string `path:"problem_key"`
@@ -136,24 +136,73 @@ service onlinejudge {
 	delete /v1/problems/:problem_key (DeleteProblemDetailRequest) returns (GeneralResponse)
 }
 
-// 提交模块 API 定义
-//@server (
-// group:      v1/submissions
-// middleware: LogInterceptor
-//)
-//service onlinejudge {
-// @doc "提交代码判题"
-// @handler SubmitCodeHandler
-// post /v1/submissions (SubmitCodeRequest) returns (SubmitCodeResponse)
-//
-// @doc "获取提交记录列表"
-// @handler GetSubmissionListHandler
-// get /v1/submissions (GetSubmissionListRequest) returns (GetSubmissionListResponse)
-//
-// @doc "获取提交记录详情"
-// @handler GetSubmissionDetailHandler
-// get /v1/submissions/{id} (GetSubmissionDetailRequest) returns (GetSubmissionDetailResponse)
-//}
+type (
+	CreateSubmissionDetailRequest {
+		UserId     int    `json:"user_id"`
+		ProblemKey string `json:"problem_key"`
+		Code       string `json:"code"`
+		Language   string `json:"language"`
+	}
+	CaseResult {
+		CaseKey        string `json:"case_key"`
+		Passed         bool   `json:"passed"`
+		Input          string `json:"input"`
+		Output         string `json:"output"`
+		ExpectedOutput string `json:"expected_output"`
+		ErrorMsg       string `json:"error_msg"`
+		TimeUsed       int    `json:"time_used"`
+		MemoryUsed     int    `json:"memory_used"`
+	}
+	SubmissionDetail {
+		Status      string       `json:"status"`
+		Score       int          `json:"score"`
+		TimeUsed    int          `json:"time_used"`
+		MemoryUsed  int          `json:"memory_used"`
+		CaseResults []CaseResult `json:"case_results"`
+	}
+	CreateSubmissionDetailResponse {
+		GeneralResponse
+		Data SubmissionDetail `json:"data"`
+	}
+	RetrieveSubmissionsRequest {
+		UserId     int    `path:"user_id"`
+		ProblemKey string `path:"problem_key"`
+	}
+	RetrieveSubmissionsResponse {
+		GeneralResponse
+		SubmissionKey string `json:"submission_key"`
+		Status        string `json:"status"`
+		Score         int    `json:"score"`
+		SubmitTime    int    `json:"submit_time"`
+	}
+	RetrieveSubmissionDetailRequest {
+		SubmissionKey string `path:"submission_key"`
+	}
+	RetrieveSubmissionDetailResponse {
+		GeneralResponse
+		Data SubmissionDetail `json:"data"`
+	}
+)
+
+@server (
+	jwt:        Auth
+	group:      v1/submissions
+	middleware: LogInterceptor
+)
+service onlinejudge {
+	@doc "创建提交记录详情"
+	@handler CreateSubmissionDetail
+	post /v1/submissions (CreateSubmissionDetailRequest) returns (CreateSubmissionDetailResponse)
+
+	@doc "获取提交记录列表"
+	@handler RetrieveSubmissions
+	get /v1/submissions/:user_id/:problem_key (RetrieveSubmissionsRequest) returns (RetrieveSubmissionsResponse)
+
+	@doc "获取提交记录详情"
+	@handler RetrieveSubmissionDetail
+	get /v1/submissions/:submission_key (RetrieveSubmissionDetailRequest) returns (RetrieveSubmissionDetailResponse)
+}
+
 type (
 	RetrieveCasesRequest {
 		ProblemKey string `form:"problem_key",optional`

@@ -56,16 +56,16 @@ func (l *UpdateProblemDetailLogic) UpdateProblemDetail(req *types.UpdateProblemD
 		problem.Difficulty = req.Difficulty
 	}
 	if req.TimeLimit != nil {
-		problem.TimeLimit = int64(*req.TimeLimit)
+		problem.TimeLimit = uint64(*req.TimeLimit)
 	}
 	if req.MemoryLimit != nil {
-		problem.MemoryLimit = int64(*req.MemoryLimit)
+		problem.MemoryLimit = uint64(*req.MemoryLimit)
 	}
 	if req.Tags != "" {
 		problem.Tags = req.Tags
 	}
 	if req.IsPublished != nil {
-		problem.IsPublished = bool(*req.IsPublished)
+		problem.IsPublished = int64(*req.IsPublished)
 	}
 
 	err = l.svcCtx.PromblemModel.Update(l.ctx, problem)

@@ -45,11 +45,11 @@ type (
 		InputDesc   string       `db:"input_desc"`   // 输入格式说明
 		OutputDesc  string       `db:"output_desc"`  // 输出格式说明
 		SampleCases string       `db:"sample_cases"` // 样例输入输出
-		Difficulty  string       `db:"difficulty"`   // 题目难度: easy/medium/hard
-		TimeLimit   int64        `db:"time_limit"`   // 程序运行时间限制(单位: 毫秒)
-		MemoryLimit int64        `db:"memory_limit"` // 程序内存限制(单位: MB)
+		Difficulty  string       `db:"difficulty"`   // 题目难度
+		TimeLimit   uint64       `db:"time_limit"`   // 程序运行时间限制(单位: 毫秒)
+		MemoryLimit uint64       `db:"memory_limit"` // 程序内存限制(单位: MB)
 		Tags        string       `db:"tags"`         // 题目标签
-		IsPublished bool         `db:"is_published"` // 是否发布
+		IsPublished int64        `db:"is_published"` // 是否发布: 1-发布, 0-草稿
 		CreateTime  time.Time    `db:"create_time"`  // 创建时间
 		UpdateTime  time.Time    `db:"update_time"`  // 更新时间
 		DeleteTime  sql.NullTime `db:"delete_time"`  // 删除时间

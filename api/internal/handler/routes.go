@@ -8,6 +8,7 @@ import (
 
 	v1cases "github.com/dszqbsm/online-judge/api/internal/handler/v1/cases"
 	v1problems "github.com/dszqbsm/online-judge/api/internal/handler/v1/problems"
+	v1submissions "github.com/dszqbsm/online-judge/api/internal/handler/v1/submissions"
 	v1users "github.com/dszqbsm/online-judge/api/internal/handler/v1/users"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 
@@ -87,6 +88,33 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/v1/problems/:problem_key",
 					Handler: v1problems.DeleteProblemDetailHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.LogInterceptor},
+			[]rest.Route{
+				{
+					// 创建提交记录详情
+					Method:  http.MethodPost,
+					Path:    "/v1/submissions",
+					Handler: v1submissions.CreateSubmissionDetailHandler(serverCtx),
+				},
+				{
+					// 获取提交记录详情
+					Method:  http.MethodGet,
+					Path:    "/v1/submissions/:submission_key",
+					Handler: v1submissions.RetrieveSubmissionDetailHandler(serverCtx),
+				},
+				{
+					// 获取提交记录列表
+					Method:  http.MethodGet,
+					Path:    "/v1/submissions/:user_id/:problem_key",
+					Handler: v1submissions.RetrieveSubmissionsHandler(serverCtx),
 				},
 			}...,
 		),

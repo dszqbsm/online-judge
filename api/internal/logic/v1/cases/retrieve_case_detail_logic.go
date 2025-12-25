@@ -29,7 +29,7 @@ func NewRetrieveCaseDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *RetrieveCaseDetailLogic) RetrieveCaseDetail(req *types.RetrieveCaseDetailRequest) (resp *types.RetrieveCaseDetailResponse, err error) {
 	resp = &types.RetrieveCaseDetailResponse{}
 
-	caseDetail, err := l.svcCtx.CaseModel.FindOneByKey(l.ctx, req.CaseKey)
+	caseDetail, err := l.svcCtx.TestCaseModel.FindOneByKey(l.ctx, req.CaseKey)
 	if err == model.ErrNotFound {
 		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "case not exists!")
 	}
@@ -39,7 +39,7 @@ func (l *RetrieveCaseDetailLogic) RetrieveCaseDetail(req *types.RetrieveCaseDeta
 
 	resp.Data = types.CaseDetail{
 		Input:  caseDetail.Input,
-		Output: caseDetail.Output,
+		Output: caseDetail.ExpectedOutput,
 		Score:  int(caseDetail.Score),
 	}
 

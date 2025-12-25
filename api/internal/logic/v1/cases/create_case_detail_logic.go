@@ -27,15 +27,15 @@ func NewCreateCaseDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *CreateCaseDetailLogic) CreateCaseDetail(req *types.CreateCaseDetailRequest) (resp *types.GeneralResponse, err error) {
 	resp = &types.GeneralResponse{}
 
-	caseDetail := &model.Case{
-		Key:        req.CaseKey,
-		ProblemKey: req.ProblemKey,
-		Input:      req.Input,
-		Output:     req.Output,
-		Score:      int64(req.Score),
+	caseDetail := &model.TestCase{
+		Key:            req.CaseKey,
+		ProblemKey:     req.ProblemKey,
+		Input:          req.Input,
+		ExpectedOutput: req.Output,
+		Score:          uint64(req.Score),
 	}
 
-	_, err = l.svcCtx.CaseModel.Insert(l.ctx, caseDetail)
+	_, err = l.svcCtx.TestCaseModel.Insert(l.ctx, caseDetail)
 	if err != nil {
 		return nil, err
 	}

@@ -13,6 +13,17 @@ type CaseDetailList struct {
 	CaseKey string `json:"case_key"`
 }
 
+type CaseResult struct {
+	CaseKey        string `json:"case_key"`
+	Passed         bool   `json:"passed"`
+	Input          string `json:"input"`
+	Output         string `json:"output"`
+	ExpectedOutput string `json:"expected_output"`
+	ErrorMsg       string `json:"error_msg"`
+	TimeUsed       int    `json:"time_used"`
+	MemoryUsed     int    `json:"memory_used"`
+}
+
 type CreateCaseDetailRequest struct {
 	CaseKey    string `json:"case_key"`
 	ProblemKey string `json:"problem_key"`
@@ -32,7 +43,19 @@ type CreateProblemDetailRequest struct {
 	TimeLimit   int    `json:"time_limit"`
 	MemoryLimit int    `json:"memory_limit"`
 	Tags        string `json:"tags"`
-	IsPublished bool   `json:"is_published"`
+	IsPublished int    `json:"is_published"`
+}
+
+type CreateSubmissionDetailRequest struct {
+	UserId     int    `json:"user_id"`
+	ProblemKey string `json:"problem_key"`
+	Code       string `json:"code"`
+	Language   string `json:"language"`
+}
+
+type CreateSubmissionDetailResponse struct {
+	GeneralResponse
+	Data SubmissionDetail `json:"data"`
 }
 
 type CreateUserRequest struct {
@@ -119,6 +142,36 @@ type RetrieveProblemsResponse struct {
 	Data []ProblemListDetail `json:"data"`
 }
 
+type RetrieveSubmissionDetailRequest struct {
+	SubmissionKey string `path:"submission_key"`
+}
+
+type RetrieveSubmissionDetailResponse struct {
+	GeneralResponse
+	Data SubmissionDetail `json:"data"`
+}
+
+type RetrieveSubmissionsRequest struct {
+	UserId     int    `path:"user_id"`
+	ProblemKey string `path:"problem_key"`
+}
+
+type RetrieveSubmissionsResponse struct {
+	GeneralResponse
+	SubmissionKey string `json:"submission_key"`
+	Status        string `json:"status"`
+	Score         int    `json:"score"`
+	SubmitTime    int    `json:"submit_time"`
+}
+
+type SubmissionDetail struct {
+	Status      string       `json:"status"`
+	Score       int          `json:"score"`
+	TimeUsed    int          `json:"time_used"`
+	MemoryUsed  int          `json:"memory_used"`
+	CaseResults []CaseResult `json:"case_results"`
+}
+
 type TokenDetail struct {
 	Token string `json:"token"`
 }
@@ -142,5 +195,5 @@ type UpdateProblemDetailRequest struct {
 	TimeLimit   *int   `json:"time_limit",optional`
 	MemoryLimit *int   `json:"memory_limit",optional`
 	Tags        string `json:"tags",optional`
-	IsPublished *bool  `json:"is_published",optional`
+	IsPublished *int   `json:"is_published",optional`
 }

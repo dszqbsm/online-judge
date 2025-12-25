@@ -35,10 +35,10 @@ func (l *CreateProblemDetailLogic) CreateProblemDetail(req *types.CreateProblemD
 		OutputDesc:  req.Outputdesc,
 		SampleCases: req.SampleCases,
 		Difficulty:  req.Difficulty,
-		TimeLimit:   int64(req.TimeLimit),
-		MemoryLimit: int64(req.MemoryLimit),
+		TimeLimit:   uint64(req.TimeLimit),
+		MemoryLimit: uint64(req.MemoryLimit),
 		Tags:        req.Tags,
-		IsPublished: req.IsPublished,
+		IsPublished: int64(req.IsPublished),
 	}
 
 	_, err = l.svcCtx.PromblemModel.Insert(l.ctx, problem)

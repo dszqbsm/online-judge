@@ -41,7 +41,7 @@ type (
 		Id           uint64       `db:"id"`            // 主键ID
 		UserName     string       `db:"user_name"`     // 登录用户名
 		PasswordHash string       `db:"password_hash"` // 密码哈希值
-		Status       bool         `db:"status"`        // 用户状态: true-启用, false-禁用
+		Status       int64        `db:"status"`        // 用户状态: 1-启用, 0-禁用
 		CreateTime   time.Time    `db:"create_time"`   // 创建时间
 		UpdateTime   time.Time    `db:"update_time"`   // 更新时间
 		DeleteTime   sql.NullTime `db:"delete_time"`   // 删除时间

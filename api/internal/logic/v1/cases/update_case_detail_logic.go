@@ -29,7 +29,7 @@ func NewUpdateCaseDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *UpdateCaseDetailLogic) UpdateCaseDetail(req *types.UpdateCaseDetailRequest) (resp *types.GeneralResponse, err error) {
 	resp = &types.GeneralResponse{}
 
-	caseDetail, err := l.svcCtx.CaseModel.FindOneByKey(l.ctx, req.CaseKey)
+	caseDetail, err := l.svcCtx.TestCaseModel.FindOneByKey(l.ctx, req.CaseKey)
 	if err == model.ErrNotFound {
 		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "case not exists!")
 	}
@@ -46,14 +46,14 @@ func (l *UpdateCaseDetailLogic) UpdateCaseDetail(req *types.UpdateCaseDetailRequ
 	}
 
 	if req.Output != "" {
-		caseDetail.Output = req.Output
+		caseDetail.ExpectedOutput = req.Output
 	}
 
 	if req.Score != nil {
-		caseDetail.Score = int64(*req.Score)
+		caseDetail.Score = uint64(*req.Score)
 	}
 
-	err = l.svcCtx.CaseModel.Update(l.ctx, caseDetail)
+	err = l.svcCtx.TestCaseModel.Update(l.ctx, caseDetail)
 	if err != nil {
 		return nil, err
 	}
