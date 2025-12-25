@@ -81,6 +81,15 @@ type ProblemListDetail struct {
 	Tags       string `json:"tags"`
 }
 
+type RetrieveCaseDetailRequest struct {
+	CaseKey string `path:"case_key"`
+}
+
+type RetrieveCaseDetailResponse struct {
+	GeneralResponse
+	Data CaseDetail `json:"data"`
+}
+
 type RetrieveCasesRequest struct {
 	ProblemKey string `form:"problem_key",optional`
 }
@@ -110,15 +119,6 @@ type RetrieveProblemsResponse struct {
 	Data []ProblemListDetail `json:"data"`
 }
 
-type RetrievecaseDetailRequest struct {
-	CaseKey string `path:"case_key"`
-}
-
-type RetrievecaseDetailResponse struct {
-	GeneralResponse
-	Data []CaseDetail `json:"data"`
-}
-
 type TokenDetail struct {
 	Token string `json:"token"`
 }
@@ -128,7 +128,7 @@ type UpdateCaseDetailRequest struct {
 	ProblemKey string `json:"problem_key",optional`
 	Input      string `json:"input",optional`
 	Output     string `json:"output",optional`
-	Score      int    `json:score,optional`
+	Score      *int   `json:score,optional`
 }
 
 type UpdateProblemDetailRequest struct {

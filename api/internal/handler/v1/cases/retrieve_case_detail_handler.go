@@ -11,17 +11,17 @@ import (
 	"github.com/dszqbsm/online-judge/api/internal/types"
 )
 
-func RetrievecaseDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func RetrieveCaseDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RetrievecaseDetailRequest
+		var req types.RetrieveCaseDetailRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			stat := errorx.New(http.StatusBadRequest, errorx.ErrorCodeInvalidParameter, err.Error())
 			httpx.WriteJson(w, stat.StatusCode, stat)
 			return
 		}
 
-		l := cases.NewRetrievecaseDetailLogic(r.Context(), svcCtx)
-		resp, err := l.RetrievecaseDetail(&req)
+		l := cases.NewRetrieveCaseDetailLogic(r.Context(), svcCtx)
+		resp, err := l.RetrieveCaseDetail(&req)
 
 		switch errResp := err.(type) {
 		case nil:

@@ -35,7 +35,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 获取测试用例详情
 					Method:  http.MethodGet,
 					Path:    "/v1/cases/:case_key",
-					Handler: v1cases.RetrievecaseDetailHandler(serverCtx),
+					Handler: v1cases.RetrieveCaseDetailHandler(serverCtx),
 				},
 				{
 					// 更新测试用例详情

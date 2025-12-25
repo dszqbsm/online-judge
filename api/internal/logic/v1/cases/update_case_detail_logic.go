@@ -2,9 +2,12 @@ package cases
 
 import (
 	"context"
+	"net/http"
 
+	"github.com/dszqbsm/errorx"
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
+	"github.com/dszqbsm/online-judge/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +27,36 @@ func NewUpdateCaseDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *UpdateCaseDetailLogic) UpdateCaseDetail(req *types.UpdateCaseDetailRequest) (resp *types.GeneralResponse, err error) {
-	// TODO: add your logic here and delete this line
-	// TODO: new response first, set status code to 200
+	resp = &types.GeneralResponse{}
 
-	return
+	caseDetail, err := l.svcCtx.CaseModel.FindOneByKey(l.ctx, req.CaseKey)
+	if err == model.ErrNotFound {
+		return nil, errorx.New(http.StatusBadRequest, "BAD_REQUEST", "case not exists!")
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	if req.ProblemKey != "" {
+		caseDetail.ProblemKey = req.ProblemKey
+	}
+
+	if req.Input != "" {
+		caseDetail.Input = req.Input
+	}
+
+	if req.Output != "" {
+		caseDetail.Output = req.Output
+	}
+
+	if req.Score != nil {
+		caseDetail.Score = int64(*req.Score)
+	}
+
+	err = l.svcCtx.CaseModel.Update(l.ctx, caseDetail)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

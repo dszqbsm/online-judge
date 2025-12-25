@@ -24,8 +24,20 @@ func NewRetrieveCasesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ret
 }
 
 func (l *RetrieveCasesLogic) RetrieveCases(req *types.RetrieveCasesRequest) (resp *types.RetrieveCasesResponse, err error) {
-	// TODO: add your logic here and delete this line
-	// TODO: new response first, set status code to 200
+	resp = &types.RetrieveCasesResponse{}
 
-	return
+	casesDetail, err := l.svcCtx.CaseModel.FindAllByProblemKey(l.ctx, req.ProblemKey)
+	if err != nil {
+		return nil, err
+	}
+
+	casesList := make([]types.CaseDetailList, 0, len(casesDetail))
+	for _, caseDetail := range casesDetail {
+		casesList = append(casesList, types.CaseDetailList{
+			CaseKey: caseDetail.Key,
+		})
+	}
+	resp.Data = casesList
+
+	return resp, nil
 }
