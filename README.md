@@ -1,28 +1,15 @@
 # 在线判题系统
 
-## 研发进度
+## 待办事项
 
-### 用户管理模块
+- [ ]
 
-支持注册、登录的简单功能，设计数据库表结构如下：
+- [x]
 
-``` sql
-CREATE TABLE `user`
-(
-    `id`      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `user_name` VARCHAR(50)  NOT NULL COMMENT '登录用户名',
-    `password_hash` VARCHAR(255) NOT NULL COMMENT '密码哈希值',
-    `status` BOOLEAN NOT NULL DEFAULT 1 COMMENT '用户状态: true-启用, false-禁用',
-    `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` TIMESTAMP NULL COMMENT '删除时间',
-    CONSTRAINT `pk_id` PRIMARY KEY (`id`),
-    CONSTRAINT `uc_user_name` UNIQUE (`user_name`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_bin
-  COMMENT = '用户表';
-```
+## 记录
+
+1. 创建临时隔离环境时：```os.MkdirAll(tempDir, 0700)```0700表示只有读写执行的权限，并会递归的创建父目录
+2. 编译代码时：通过```exec.Command```生成待执行命令的配置载体```exec.cmd```对象（是Go对操作系统子进程的抽象封装，包含了要执行的命令、参数、执行环境等所有信息），并利用```compileCmd.Dir / compileCmd.Stderr```给这个载体配置执行工作目录和错误输出捕获重定向，最后通过```compileCmd.Run()```执行命令（会fork子进程，执行，等待退出）
 
 
 

@@ -38,22 +38,23 @@ type (
 	}
 
 	Submission struct {
-		Id             uint64        `db:"id"`               // 主键ID
-		Key            string        `db:"key"`              // 提交记录标识
-		UserId         uint64        `db:"user_id"`          // 用户ID
-		ProblemKey     string        `db:"problem_key"`      // 题目标识
-		Code           string        `db:"code"`             // 用户提交的代码
-		Language       string        `db:"language"`         // 编程语言
-		Status         string        `db:"status"`           // 判题状态
-		Score          uint64        `db:"score"`            // 得分(0-100)
-		PassCaseCount  uint64        `db:"pass_case_count"`  // 通过用例数
-		TotalCaseCount uint64        `db:"total_case_count"` // 总用例数
-		TimeUsed       sql.NullInt64 `db:"time_used"`        // 代码总运行耗时(单位: 毫秒)
-		MemoryUsed     sql.NullInt64 `db:"memory_used"`      // 代码总内存占用(单位: KB)
-		SubmitTime     time.Time     `db:"submit_time"`      // 提交时间
-		CreateTime     time.Time     `db:"create_time"`      // 创建时间
-		UpdateTime     time.Time     `db:"update_time"`      // 更新时间
-		DeleteTime     sql.NullTime  `db:"delete_time"`      // 删除时间
+		Id             uint64         `db:"id"`               // 主键ID
+		Key            string         `db:"key"`              // 提交记录标识
+		UserId         uint64         `db:"user_id"`          // 用户ID
+		ProblemKey     string         `db:"problem_key"`      // 题目标识
+		Code           string         `db:"code"`             // 用户提交的代码
+		Language       string         `db:"language"`         // 编程语言
+		Status         string         `db:"status"`           // 判题状态
+		ErrorMag       sql.NullString `db:"error_mag"`        // 错误信息
+		Score          uint64         `db:"score"`            // 得分(0-100)
+		PassCaseCount  uint64         `db:"pass_case_count"`  // 通过用例数
+		TotalCaseCount uint64         `db:"total_case_count"` // 总用例数
+		TimeUsed       int64          `db:"time_used"`        // 代码总运行耗时(单位: 毫秒)
+		MemoryUsed     int64          `db:"memory_used"`      // 代码总内存占用(单位: KB)
+		SubmitTime     time.Time      `db:"submit_time"`      // 提交时间
+		CreateTime     time.Time      `db:"create_time"`      // 创建时间
+		UpdateTime     time.Time      `db:"update_time"`      // 更新时间
+		DeleteTime     sql.NullTime   `db:"delete_time"`      // 删除时间
 	}
 )
 
@@ -99,14 +100,14 @@ func (m *defaultSubmissionModel) FindOneByKey(ctx context.Context, key string) (
 }
 
 func (m *defaultSubmissionModel) Insert(ctx context.Context, data *Submission) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, submissionRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Key, data.UserId, data.ProblemKey, data.Code, data.Language, data.Status, data.Score, data.PassCaseCount, data.TotalCaseCount, data.TimeUsed, data.MemoryUsed, data.SubmitTime, data.DeleteTime)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, submissionRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Key, data.UserId, data.ProblemKey, data.Code, data.Language, data.Status, data.ErrorMag, data.Score, data.PassCaseCount, data.TotalCaseCount, data.TimeUsed, data.MemoryUsed, data.SubmitTime, data.DeleteTime)
 	return ret, err
 }
 
 func (m *defaultSubmissionModel) Update(ctx context.Context, newData *Submission) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, submissionRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.Key, newData.UserId, newData.ProblemKey, newData.Code, newData.Language, newData.Status, newData.Score, newData.PassCaseCount, newData.TotalCaseCount, newData.TimeUsed, newData.MemoryUsed, newData.SubmitTime, newData.DeleteTime, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.Key, newData.UserId, newData.ProblemKey, newData.Code, newData.Language, newData.Status, newData.ErrorMag, newData.Score, newData.PassCaseCount, newData.TotalCaseCount, newData.TimeUsed, newData.MemoryUsed, newData.SubmitTime, newData.DeleteTime, newData.Id)
 	return err
 }
 

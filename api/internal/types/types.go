@@ -15,9 +15,9 @@ type CaseDetailList struct {
 
 type CaseResult struct {
 	CaseKey        string `json:"case_key"`
-	Passed         bool   `json:"passed"`
+	Passed         int    `json:"passed"`
 	Input          string `json:"input"`
-	Output         string `json:"output"`
+	ActualOutput   string `json:"actual_output"`
 	ExpectedOutput string `json:"expected_output"`
 	ErrorMsg       string `json:"error_msg"`
 	TimeUsed       int    `json:"time_used"`
@@ -158,10 +158,7 @@ type RetrieveSubmissionsRequest struct {
 
 type RetrieveSubmissionsResponse struct {
 	GeneralResponse
-	SubmissionKey string `json:"submission_key"`
-	Status        string `json:"status"`
-	Score         int    `json:"score"`
-	SubmitTime    int    `json:"submit_time"`
+	Data []SubmissionsList `json:"data"`
 }
 
 type SubmissionDetail struct {
@@ -170,6 +167,13 @@ type SubmissionDetail struct {
 	TimeUsed    int          `json:"time_used"`
 	MemoryUsed  int          `json:"memory_used"`
 	CaseResults []CaseResult `json:"case_results"`
+}
+
+type SubmissionsList struct {
+	SubmissionKey string `json:"submission_key"`
+	Status        string `json:"status"`
+	Score         int    `json:"score"`
+	SubmitTime    int    `json:"submit_time"`
 }
 
 type TokenDetail struct {

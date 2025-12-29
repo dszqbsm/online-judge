@@ -24,8 +24,23 @@ func NewRetrieveSubmissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *RetrieveSubmissionsLogic) RetrieveSubmissions(req *types.RetrieveSubmissionsRequest) (resp *types.RetrieveSubmissionsResponse, err error) {
-	// TODO: add your logic here and delete this line
-	// TODO: new response first, set status code to 200
+	resp = &types.RetrieveSubmissionsResponse{}
 
-	return
+	submissions, err := l.svcCtx.SubmissionModel.FindAllByUserIdProblemKey(l.ctx, int64(req.UserId), req.ProblemKey)
+	if err != nil {
+		return nil, err
+	}
+
+	submissionsFlag := make([]types.SubmissionsList, 0, len(submissions))
+	for _, submission := range submissions {
+		submissionsFlag = append(submissionsFlag, types.SubmissionsList{
+			SubmissionKey: submission.Key,
+			Status:        submission.Status,
+			Score:         int(submission.Score),
+			SubmitTime:    int(submission.TimeUsed),
+		})
+	}
+	resp.Data = submissionsFlag
+
+	return resp, nil
 }
