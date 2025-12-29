@@ -2,7 +2,6 @@ package submissions
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/dszqbsm/online-judge/api/internal/svc"
 	"github.com/dszqbsm/online-judge/api/internal/types"
@@ -52,15 +51,48 @@ func (l *RetrieveSubmissionDetailLogic) RetrieveSubmissionDetail(req *types.Retr
 
 	submissionCasesFlag := make([]types.CaseResult, 0, len(submissionCases))
 	for _, submissionCase := range submissionCases {
-		caseResult := types.CaseResult{
-			CaseKey:      submissionCase.Key,
-			Passed:       int(submissionCase.Passed),
-			Input:        testCasesFlag[submissionCase.TestCaseKey].Input,
-			ActualOutput: sql.NullString{String: submissionCase.ActualOutput.String(), Valid: true},
+		testCase := testCasesFlag[submissionCase.TestCaseKey]
+
+		actualOutput := ""
+		if submissionCase.ActualOutput.Valid {
+			actualOutput = submissionCase.ActualOutput.String
 		}
+
+		errorMsg := ""
+		if submissionCase.ErrorMsg.Valid {
+			errorMsg = submissionCase.ErrorMsg.String
+		}
+
+		timeUsed := 0
+		if submissionCase.TimeUsed.Valid {
+			timeUsed = int(submissionCase.TimeUsed.Int64)
+		}
+
+		memoryUsed := 0
+		if submissionCase.MemoryUsed.Valid {
+			memoryUsed = int(submissionCase.MemoryUsed.Int64)
+		}
+
+		caseResult := types.CaseResult{
+			CaseKey:        submissionCase.Key,
+			Passed:         int(submissionCase.Passed),
+			Input:          testCase.Input,
+			ActualOutput:   actualOutput,
+			ExpectedOutput: testCase.ExpectedOutput,
+			ErrorMsg:       errorMsg,
+			TimeUsed:       timeUsed,
+			MemoryUsed:     memoryUsed,
+		}
+		submissionCasesFlag = append(submissionCasesFlag, caseResult)
 	}
 
-	resp.Data = submission
+	resp.Data = types.SubmissionDetail{
+		Status:      submission.Status,
+		Score:       int(submission.Score),
+		TimeUsed:    int(submission.TimeUsed),
+		MemoryUsed:  int(submission.MemoryUsed),
+		CaseResults: submissionCasesFlag,
+	}
 
 	return
 }
